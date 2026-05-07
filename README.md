@@ -1,3 +1,5 @@
+# 보고서 [Greem_Portfolio_Report.docx](https://github.com/user-attachments/files/27471177/Greem_Portfolio_Report.docx)
+
 # GREEM - 패션 쇼핑몰
 
 ## 기술 스택
