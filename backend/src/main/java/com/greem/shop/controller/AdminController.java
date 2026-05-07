@@ -65,6 +65,22 @@ public class AdminController {
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
+    @PatchMapping("/categories/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("카테고리 없음"));
+        if (request.getName() != null) category.setName(request.getName());
+        if (request.getSlug() != null) category.setSlug(request.getSlug());
+        if (request.getSortOrder() != null) category.setSortOrder(request.getSortOrder());
+        return ResponseEntity.ok(categoryRepository.save(category));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     // ===== 주문 관리 =====
     @GetMapping("/orders")
     public ResponseEntity<?> getAllOrders(

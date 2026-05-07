@@ -58,12 +58,17 @@ export default function AdminProductForm() {
         <div className="form-group"><label>카테고리 *</label>
           <select value={form.categoryId} onChange={e => setForm({...form, categoryId: e.target.value})} required>
             <option value="">카테고리 선택</option>
-            {categories.map(c => (
-              <optgroup key={c.id} label={c.name}>
-                {c.children?.map(child => <option key={child.id} value={child.id}>{child.name}</option>)}
-                {(!c.children || c.children.length === 0) && <option value={c.id}>{c.name}</option>}
-              </optgroup>
-            ))}
+            {categories.map(c =>
+              c.children && c.children.length > 0 ? (
+                <optgroup key={c.id} label={c.name}>
+                  {c.children.map(child => (
+                    <option key={child.id} value={child.id}>{child.name}</option>
+                  ))}
+                </optgroup>
+              ) : (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              )
+            )}
           </select></div>
         <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:16}}>
           <div className="form-group"><label>판매가 *</label>

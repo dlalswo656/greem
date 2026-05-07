@@ -6,6 +6,11 @@ export default function AdminDashboard() {
     <div>
       <h1 className="page-title">관리자 대시보드</h1>
       <div className="admin-menu-grid">
+        <Link to="/admin/categories" className="admin-menu-card">
+          <span className="admin-menu-icon">📂</span>
+          <h3>카테고리 관리</h3>
+          <p>카테고리 추가/조회</p>
+        </Link>
         <Link to="/admin/products" className="admin-menu-card">
           <span className="admin-menu-icon">👕</span>
           <h3>상품 관리</h3>

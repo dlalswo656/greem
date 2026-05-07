@@ -19,6 +19,8 @@ export default function ProductDetail() {
   const [inquiries, setInquiries] = useState([]);
   const [reviewForm, setReviewForm] = useState({ content: '', rating: 5 });
   const [inquiryForm, setInquiryForm] = useState({ title: '', content: '', isSecret: false });
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
 
   useEffect(() => {
     productApi.getProduct(id).then(res => {
@@ -40,15 +42,15 @@ export default function ProductDetail() {
 
   const handleAddCart = async () => {
     if (!user) return navigate('/login');
-    if (!selectedOption) return alert('옵션을 선택해주세요.');
-    await cartApi.addCart({ productOptionId: selectedOption.id, quantity });
+    if (!filteredOption) return alert('옵션을 선택해주세요.');
+    await cartApi.addCart({ productOptionId: filteredOption.id, quantity });
     if (window.confirm('장바구니에 담았습니다. 장바구니로 이동하시겠습니까?')) navigate('/cart');
   };
 
   const handleBuyNow = async () => {
     if (!user) return navigate('/login');
-    if (!selectedOption) return alert('옵션을 선택해주세요.');
-    await cartApi.addCart({ productOptionId: selectedOption.id, quantity });
+    if (!filteredOption) return alert('옵션을 선택해주세요.');
+    await cartApi.addCart({ productOptionId: filteredOption.id, quantity });
     navigate('/checkout');
   };
 
@@ -75,10 +77,8 @@ export default function ProductDetail() {
     : (product.images || []);
 
   // 사이즈 목록 (중복 제거)
-  const sizes = [...new Set(product.options?.map(o => o.size).filter(Boolean))];
-  const colors = [...new Set(product.options?.map(o => o.color).filter(Boolean))];
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const sizes = [...new Set(product?.options?.map(o => o.size).filter(Boolean))];
+  const colors = [...new Set(product?.options?.map(o => o.color).filter(Boolean))];
 
   const filteredOption = product.options?.find(
     o => (o.size === selectedSize || !selectedSize) && (o.color === selectedColor || !selectedColor)
