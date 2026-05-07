@@ -1,4 +1,17 @@
 .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+.cart-select-all {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: #fff; border-radius: 4px;
+  margin-bottom: 8px; font-size: 14px;
+}
+.cart-select-all label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.delete-selected-btn {
+  background: none; border: 1px solid #ddd; padding: 5px 12px;
+  border-radius: 4px; font-size: 12px; color: #888;
+}
+.delete-selected-btn:hover { border-color: #e53; color: #e53; }
+.cart-checkbox { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+.cart-item.unchecked { opacity: 0.5; }
 .cart-item {
   display: flex; align-items: center; gap: 16px;
   background: #fff; padding: 16px; border-radius: 4px;

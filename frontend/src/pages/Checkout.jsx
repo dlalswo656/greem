@@ -14,7 +14,13 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    cartApi.getCart().then(res => setCartItems(res.data)).catch(() => {});
+    // 장바구니에서 선택된 아이템 가져오기
+    const saved = sessionStorage.getItem('checkoutItems');
+    if (saved) {
+      setCartItems(JSON.parse(saved));
+    } else {
+      cartApi.getCart().then(res => setCartItems(res.data)).catch(() => {});
+    }
     couponApi.getMyCoupons().then(res => setCoupons(res.data)).catch(() => {});
     authApi.getMe().then(res => {
       setMyInfo(res.data);
@@ -27,7 +33,7 @@ export default function Checkout() {
     }).catch(() => {});
   }, []);
 
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+  const totalPrice = cartItems.reduce((sum, item) => sum + (item.totalPrice || (item.price * item.quantity) || 0), 0);
 
   const discountAmount = selectedCoupon ? (() => {
     if (selectedCoupon.discountType === 'FIXED') return selectedCoupon.discountValue;

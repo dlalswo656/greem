@@ -40,17 +40,37 @@ export default function ProductDetail() {
     setWished(res.data.wished);
   };
 
+  const validateOption = () => {
+    if (sizes.length > 0 && !selectedSize) { alert('사이즈를 선택해주세요.'); return false; }
+    if (colors.length > 0 && !selectedColor) { alert('색상을 선택해주세요.'); return false; }
+    if (!filteredOption) { alert('옵션을 선택해주세요.'); return false; }
+    if (filteredOption.stock < quantity) { alert('재고가 부족합니다.'); return false; }
+    return true;
+  };
+
   const handleAddCart = async () => {
     if (!user) return navigate('/login');
-    if (!filteredOption) return alert('옵션을 선택해주세요.');
+    if (!validateOption()) return;
     await cartApi.addCart({ productOptionId: filteredOption.id, quantity });
     if (window.confirm('장바구니에 담았습니다. 장바구니로 이동하시겠습니까?')) navigate('/cart');
   };
 
   const handleBuyNow = async () => {
     if (!user) return navigate('/login');
-    if (!filteredOption) return alert('옵션을 선택해주세요.');
-    await cartApi.addCart({ productOptionId: filteredOption.id, quantity });
+    if (!validateOption()) return;
+    const item = {
+      id: Date.now(),
+      productId: product.id,
+      productName: product.name,
+      thumbnailImage: product.thumbnailImage,
+      optionId: filteredOption.id,
+      size: selectedSize,
+      color: selectedColor,
+      price: product.getSalePrice ? product.getSalePrice() : (product.discountPrice || product.price),
+      quantity,
+      totalPrice: (product.discountPrice || product.price) * quantity
+    };
+    sessionStorage.setItem('checkoutItems', JSON.stringify([item]));
     navigate('/checkout');
   };
 

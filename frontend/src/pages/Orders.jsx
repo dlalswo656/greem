@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { orderApi } from '../api/api';
+
+const PAY_MAP = {
+  CARD: '신용카드', KAKAO_PAY: '카카오페이', NAVER_PAY: '네이버페이', TOSS: '토스'
+};
 import './Orders.css';
 
 const STATUS_MAP = {
@@ -11,6 +15,7 @@ const STATUS_MAP = {
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     orderApi.getOrders().then(res => setOrders(res.data.content)).catch(console.error)
@@ -37,7 +42,11 @@ export default function Orders() {
             <div className="order-card-header">
               <span className="order-date">{new Date(order.createdAt).toLocaleDateString('ko-KR')}</span>
               <span className="order-id">주문번호 #{order.id}</span>
+              {order.paymentMethod && (
+                <span className="order-pay-method">{PAY_MAP[order.paymentMethod] || order.paymentMethod}</span>
+              )}
               <span className={`order-status ${order.status}`}>{STATUS_MAP[order.status]}</span>
+              <button className="detail-btn" onClick={() => navigate(`/orders/${order.id}`)}>상세보기</button>
               {(order.status === 'PENDING' || order.status === 'PAID') && (
                 <button className="cancel-btn" onClick={() => handleCancel(order.id)}>취소</button>
               )}

@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderComplete from './pages/OrderComplete';
 import Orders from './pages/Orders';
+import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
             <Route path="/order-complete/:id" element={<PrivateRoute><OrderComplete /></PrivateRoute>} />
             <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
+            <Route path="/orders/:id" element={<PrivateRoute><OrderDetail /></PrivateRoute>} />
             <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
             <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />

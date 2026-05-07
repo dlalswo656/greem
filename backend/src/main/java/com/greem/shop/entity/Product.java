@@ -55,14 +55,14 @@ public class Product {
         this.createdAt = LocalDateTime.now();
     }
 
-    // 실제 판매가 반환
+    // 실제 판매가 반환 (discountPrice가 0이면 할인 없음 처리)
     public int getSalePrice() {
-        return discountPrice != null ? discountPrice : price;
+        return (discountPrice != null && discountPrice > 0) ? discountPrice : price;
     }
 
     // 할인율 반환
     public int getDiscountRate() {
-        if (discountPrice == null) return 0;
+        if (discountPrice == null || discountPrice <= 0) return 0;
         return (int) Math.round((1.0 - (double) discountPrice / price) * 100);
     }
 

@@ -1,0 +1,41 @@
+.order-detail-page { max-width: 700px; margin: 0 auto; }
+.order-detail-header { margin-bottom: 20px; }
+.back-link { font-size: 13px; color: #888; display: block; margin-bottom: 8px; }
+.back-link:hover { color: #111; }
+
+.receipt-box { background: #fff; border-radius: 8px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.receipt-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.receipt-title { font-size: 24px; font-weight: 900; letter-spacing: 3px; }
+.receipt-sub { font-size: 13px; color: #888; margin-top: 4px; }
+.order-status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.order-status-badge.PAID { background: #e8f5e9; color: #2e7d32; }
+.order-status-badge.PENDING { background: #fff8e1; color: #f57f17; }
+.order-status-badge.PREPARING { background: #e8f5e9; color: #2e7d32; }
+.order-status-badge.SHIPPING { background: #e3f2fd; color: #1565c0; }
+.order-status-badge.DELIVERED { background: #f3e5f5; color: #6a1b9a; }
+.order-status-badge.CANCELLED, .order-status-badge.REFUNDED { background: #f5f5f5; color: #888; }
+
+.receipt-divider { border: none; border-top: 1px dashed #e0e0e0; margin: 20px 0; }
+
+.receipt-section h3 { font-size: 14px; font-weight: 700; color: #888; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.receipt-rows { display: flex; flex-direction: column; gap: 8px; }
+.receipt-row { display: flex; justify-content: space-between; font-size: 14px; }
+.receipt-row span:first-child { color: #888; }
+.receipt-row.discount { color: #e53; }
+.receipt-row.discount span { color: #e53; }
+.payment-key { font-family: monospace; font-size: 11px; color: #999; word-break: break-all; }
+
+.receipt-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
+.receipt-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f0f0f0; flex-shrink: 0; }
+.receipt-item-info { flex: 1; }
+.receipt-item-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.receipt-item-opt { font-size: 12px; color: #888; }
+.receipt-item-price { text-align: right; }
+.receipt-item-price p { font-size: 12px; color: #888; }
+.receipt-item-total { font-size: 15px; font-weight: 700; color: #111 !important; margin-top: 4px; }
+
+.receipt-final { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 2px solid #111; }
+.receipt-final span { font-size: 15px; font-weight: 600; }
+.receipt-final strong { font-size: 22px; font-weight: 800; }
+
+.refund-section p { font-size: 13px; color: #666; margin-bottom: 6px; line-height: 1.6; }

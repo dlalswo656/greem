@@ -71,6 +71,7 @@ public class CartService {
     }
 
     // 전체 삭제
+    @Transactional
     public void clearCart(String email) {
         User user = getUser(email);
         cartItemRepository.deleteByUserId(user.getId());

@@ -74,11 +74,14 @@ public class ProductService {
 
         String thumbnailUrl = thumbnail != null ? saveFile(thumbnail, "products") : null;
 
+        Integer discountPrice = (request.getDiscountPrice() != null && request.getDiscountPrice() > 0)
+                ? request.getDiscountPrice() : null;
+
         Product product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(request.getPrice())
-                .discountPrice(request.getDiscountPrice())
+                .discountPrice(discountPrice)
                 .thumbnailImage(thumbnailUrl)
                 .category(category)
                 .build();
