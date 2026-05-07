@@ -1,0 +1,47 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f8f8f8;
+  color: #111;
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; }
+img { max-width: 100%; }
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.loading { text-align: center; padding: 60px; color: #999; font-size: 15px; }
+.empty { text-align: center; padding: 60px; color: #999; font-size: 15px; }
+
+.btn-primary {
+  background: #111; color: #fff; border: none;
+  padding: 12px 24px; border-radius: 4px;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-primary:hover { background: #333; }
+.btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-outline {
+  background: #fff; color: #111; border: 1.5px solid #111;
+  padding: 12px 24px; border-radius: 4px;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.btn-outline:hover { background: #111; color: #fff; }
+
+.page-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.5px; }
+.section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #111; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #555; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 10px 14px; border: 1.5px solid #ddd;
+  border-radius: 4px; font-size: 14px; outline: none; transition: border-color 0.2s; font-family: inherit;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #111; }

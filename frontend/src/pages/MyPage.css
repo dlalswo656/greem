@@ -1,0 +1,11 @@
+.mypage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.mypage-section { background: #fff; padding: 28px; border-radius: 4px; }
+.coupon-register { display: flex; gap: 10px; margin-bottom: 16px; }
+.coupon-register input { flex: 1; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 4px; font-size: 14px; outline: none; }
+.coupon-register input:focus { border-color: #111; }
+.coupon-msg { font-size: 13px; color: #2e7d32; margin-bottom: 12px; }
+.coupon-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f8f8f8; border-radius: 4px; margin-bottom: 8px; }
+.coupon-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.coupon-desc { font-size: 12px; color: #888; }
+.coupon-expiry { font-size: 11px; color: #e53; flex-shrink: 0; }
+@media (max-width: 768px) { .mypage-grid { grid-template-columns: 1fr; } }

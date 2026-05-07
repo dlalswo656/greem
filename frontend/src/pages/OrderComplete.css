@@ -1,0 +1,10 @@
+.order-complete { display: flex; justify-content: center; padding: 60px 16px; }
+.complete-box { text-align: center; background: #fff; padding: 48px 40px; border-radius: 8px; max-width: 480px; width: 100%; }
+.complete-icon { width: 64px; height: 64px; background: #111; color: #fff; border-radius: 50%; font-size: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.complete-box h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.order-number { color: #888; font-size: 14px; margin-bottom: 28px; }
+.order-detail { background: #f8f8f8; border-radius: 4px; padding: 20px; margin-bottom: 28px; text-align: left; }
+.detail-row { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; }
+.detail-row span:first-child { color: #888; }
+.detail-row strong { font-weight: 700; }
+.complete-actions { display: flex; gap: 12px; justify-content: center; }

@@ -1,0 +1,28 @@
+.home-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.category-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.cat-tab {
+  background: none; border: 1.5px solid #ddd;
+  padding: 7px 16px; border-radius: 20px;
+  font-size: 13px; font-weight: 500; color: #666;
+  transition: all 0.2s;
+}
+.cat-tab:hover, .cat-tab.active { background: #111; color: #fff; border-color: #111; }
+
+.sort-select { display: flex; gap: 6px; }
+.sort-btn {
+  background: none; border: none;
+  font-size: 13px; color: #999; padding: 4px 8px;
+}
+.sort-btn.active { color: #111; font-weight: 700; }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
