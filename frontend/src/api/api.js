@@ -46,6 +46,7 @@ export const orderApi = {
 export const reviewApi = {
   getReviews:   (productId, params) => api.get(`/reviews/product/${productId}`, { params }),
   createReview: (data)              => api.post('/reviews', data),
+  updateReview: (id, data)          => api.patch(`/reviews/${id}`, data),
   deleteReview: (id)                => api.delete(`/reviews/${id}`),
 };
 

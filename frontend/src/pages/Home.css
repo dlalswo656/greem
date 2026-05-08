@@ -11,12 +11,22 @@
 }
 .cat-tab:hover, .cat-tab.active { background: #111; color: #fff; border-color: #111; }
 
-.sort-select { display: flex; gap: 6px; }
-.sort-btn {
-  background: none; border: none;
-  font-size: 13px; color: #999; padding: 4px 8px;
+.sort-dropdown {
+  padding: 8px 32px 8px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23111' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
 }
-.sort-btn.active { color: #111; font-weight: 700; }
+.sort-dropdown:focus { border-color: #111; }
 
 .product-grid {
   display: grid;

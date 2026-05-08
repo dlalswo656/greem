@@ -6,6 +6,8 @@ import './Home.css';
 
 const SORTS = [
   { value: 'latest', label: '최신순' },
+  { value: 'popular', label: '인기순' },
+  { value: 'review', label: '리뷰순' },
   { value: 'price_asc', label: '가격 낮은순' },
   { value: 'price_desc', label: '가격 높은순' },
 ];
@@ -92,16 +94,16 @@ export default function Home() {
           </div>
         )}
 
-        {/* 정렬 */}
-        <div className="sort-select">
+        {/* 정렬 드롭다운 */}
+        <select
+          className="sort-dropdown"
+          value={sort}
+          onChange={e => setSort(e.target.value)}
+        >
           {SORTS.map(s => (
-            <button
-              key={s.value}
-              className={`sort-btn ${sort === s.value ? 'active' : ''}`}
-              onClick={() => setSort(s.value)}
-            >{s.label}</button>
+            <option key={s.value} value={s.value}>{s.label}</option>
           ))}
-        </div>
+        </select>
       </div>
 
       {/* 상품 그리드 */}

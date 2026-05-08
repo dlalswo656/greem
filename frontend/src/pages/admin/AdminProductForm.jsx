@@ -19,7 +19,7 @@ export default function AdminProductForm() {
     if (isEdit) {
       productApi.getProduct(id).then(res => {
         const p = res.data;
-        setForm({ name: p.name, description: p.description || '', price: p.price, discountPrice: p.discountPrice || '', categoryId: p.categoryId || '', status: p.status });
+        setForm({ name: p.name, description: p.description || '', price: p.price, discountPrice: p.discountPrice || '', categoryId: String(p.categoryId || ''), status: p.status });
         if (p.options?.length > 0) setOptions(p.options);
       }).catch(console.error);
     }
