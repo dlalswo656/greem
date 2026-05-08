@@ -134,7 +134,11 @@ public class ProductService {
         if (request.getName() != null) product.setName(request.getName());
         if (request.getDescription() != null) product.setDescription(request.getDescription());
         if (request.getPrice() != null) product.setPrice(request.getPrice());
-        if (request.getDiscountPrice() != null) product.setDiscountPrice(request.getDiscountPrice());
+
+        // discountPrice: 0 이하면 null 처리
+        if (request.getDiscountPrice() != null) {
+            product.setDiscountPrice(request.getDiscountPrice() > 0 ? request.getDiscountPrice() : null);
+        }
         if (request.getCategoryId() != null) {
             Category category = categoryRepository.findById(request.getCategoryId())
                     .orElseThrow(() -> new RuntimeException("카테고리 없음"));
@@ -146,6 +150,37 @@ public class ProductService {
         if (thumbnail != null && !thumbnail.isEmpty()) {
             product.setThumbnailImage(saveFile(thumbnail, "products"));
         }
+
+        // 옵션 업데이트 (기존 옵션 재고/가격 수정)
+        if (request.getOptions() != null && product.getOptions() != null) {
+            List<ProductOption> existingOptions = product.getOptions();
+            List<ProductDto.OptionRequest> newOptions = request.getOptions();
+
+            // 기존 옵션 수 만큼 업데이트
+            for (int i = 0; i < Math.min(existingOptions.size(), newOptions.size()); i++) {
+                ProductOption opt = existingOptions.get(i);
+                ProductDto.OptionRequest req = newOptions.get(i);
+                if (req.getSize() != null) opt.setSize(req.getSize());
+                if (req.getColor() != null) opt.setColor(req.getColor());
+                if (req.getStock() != null) opt.setStock(req.getStock());
+                if (req.getAdditionalPrice() != null) opt.setAdditionalPrice(req.getAdditionalPrice());
+                productOptionRepository.save(opt);
+            }
+            // 새로 추가된 옵션 저장
+            if (newOptions.size() > existingOptions.size()) {
+                for (int i = existingOptions.size(); i < newOptions.size(); i++) {
+                    ProductDto.OptionRequest req = newOptions.get(i);
+                    productOptionRepository.save(ProductOption.builder()
+                            .product(product)
+                            .size(req.getSize())
+                            .color(req.getColor())
+                            .stock(req.getStock() != null ? req.getStock() : 0)
+                            .additionalPrice(req.getAdditionalPrice() != null ? req.getAdditionalPrice() : 0)
+                            .build());
+                }
+            }
+        }
+
         productRepository.save(product);
         return getProduct(productId, null);
     }

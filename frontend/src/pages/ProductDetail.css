@@ -32,6 +32,12 @@
 }
 .option-btn:hover, .option-btn.active { border-color: #111; color: #111; font-weight: 600; }
 
+.stock-info { margin-bottom: 12px; }
+.stock-count { font-size: 13px; font-weight: 600; color: #2e7d32; }
+.stock-count.low { color: #e53; }
+.stock-count.soldout-label { color: #bbb; }
+.option-btn.soldout { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+.soldout-text { font-size: 10px; margin-left: 2px; }
 .quantity-group { margin-bottom: 20px; }
 .quantity-ctrl { display: flex; align-items: center; gap: 0; border: 1.5px solid #ddd; border-radius: 4px; width: fit-content; }
 .quantity-ctrl button { width: 36px; height: 36px; background: none; border: none; font-size: 18px; color: #555; }

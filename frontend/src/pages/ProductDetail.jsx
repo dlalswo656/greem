@@ -191,13 +191,18 @@ export default function ProductDetail() {
             <div className="option-group">
               <p className="option-label">사이즈</p>
               <div className="option-btns">
-                {sizes.map(s => (
-                  <button key={s}
-                    className={`option-btn ${selectedSize === s ? 'active' : ''}`}
-                    onClick={() => setSelectedSize(s)}>
-                    {s}
-                  </button>
-                ))}
+                {sizes.map(s => {
+                  const opt = product.options?.find(o => o.size === s && (!selectedColor || o.color === selectedColor));
+                  const outOfStock = opt && opt.stock === 0;
+                  return (
+                    <button key={s}
+                      className={`option-btn ${selectedSize === s ? 'active' : ''} ${outOfStock ? 'soldout' : ''}`}
+                      onClick={() => !outOfStock && setSelectedSize(s)}
+                      disabled={outOfStock}>
+                      {s} {outOfStock && <span className="soldout-text">품절</span>}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -207,14 +212,34 @@ export default function ProductDetail() {
             <div className="option-group">
               <p className="option-label">색상</p>
               <div className="option-btns">
-                {colors.map(c => (
-                  <button key={c}
-                    className={`option-btn ${selectedColor === c ? 'active' : ''}`}
-                    onClick={() => setSelectedColor(c)}>
-                    {c}
-                  </button>
-                ))}
+                {colors.map(c => {
+                  const opt = product.options?.find(o => o.color === c && (!selectedSize || o.size === selectedSize));
+                  const outOfStock = opt && opt.stock === 0;
+                  return (
+                    <button key={c}
+                      className={`option-btn ${selectedColor === c ? 'active' : ''} ${outOfStock ? 'soldout' : ''}`}
+                      onClick={() => !outOfStock && setSelectedColor(c)}
+                      disabled={outOfStock}>
+                      {c} {outOfStock && <span className="soldout-text">품절</span>}
+                    </button>
+                  );
+                })}
               </div>
+            </div>
+          )}
+
+          {/* 재고 표시 */}
+          {filteredOption && (
+            <div className="stock-info">
+              {filteredOption.stock > 0 ? (
+                <span className={`stock-count ${filteredOption.stock <= 5 ? 'low' : ''}`}>
+                  {filteredOption.stock <= 5
+                    ? `잔여 ${filteredOption.stock}개 (품절 임박!)`
+                    : `재고 ${filteredOption.stock}개`}
+                </span>
+              ) : (
+                <span className="stock-count soldout-label">품절</span>
+              )}
             </div>
           )}
 

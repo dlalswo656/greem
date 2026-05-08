@@ -95,10 +95,9 @@ export default function AdminProductForm() {
           </div>
           {options.map((opt, i) => (
             <div key={i} className="option-row">
-              <input placeholder="사이즈" value={opt.size} onChange={e => updateOption(i, 'size', e.target.value)} />
-              <input placeholder="색상" value={opt.color} onChange={e => updateOption(i, 'color', e.target.value)} />
-              <input type="number" placeholder="재고" value={opt.stock} onChange={e => updateOption(i, 'stock', Number(e.target.value))} />
-              <input type="number" placeholder="추가금액" value={opt.additionalPrice} onChange={e => updateOption(i, 'additionalPrice', Number(e.target.value))} />
+              <input placeholder="사이즈 (예: S)" value={opt.size} onChange={e => updateOption(i, 'size', e.target.value)} />
+              <input placeholder="색상 (예: 블랙)" value={opt.color} onChange={e => updateOption(i, 'color', e.target.value)} />
+              <input type="number" placeholder="재고 수량" value={opt.stock} onChange={e => updateOption(i, 'stock', Number(e.target.value))} />
               <button type="button" onClick={() => removeOption(i)} style={{background:'none',border:'none',color:'#e53',fontSize:18}}>×</button>
             </div>
           ))}

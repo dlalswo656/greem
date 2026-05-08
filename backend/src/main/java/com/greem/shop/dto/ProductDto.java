@@ -134,5 +134,6 @@ public class ProductDto {
         private Integer discountPrice;
         private Long categoryId;
         private String status;
+        private java.util.List<OptionRequest> options;
     }
 }

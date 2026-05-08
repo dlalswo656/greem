@@ -33,7 +33,7 @@
 
 .admin-form { background: #fff; padding: 28px; border-radius: 4px; }
 .admin-options { margin-top: 8px; }
-.option-row { display: grid; grid-template-columns: 1fr 1fr 80px 100px 30px; gap: 8px; margin-bottom: 8px; align-items: center; width: 100%; }
+.option-row { display: grid; grid-template-columns: 1fr 1fr 100px 30px; gap: 8px; margin-bottom: 8px; align-items: center; width: 100%; }
 .option-row input { padding: 8px 12px; border: 1.5px solid #ddd; border-radius: 4px; font-size: 13px; outline: none; }
 .option-row input:focus { border-color: #111; }
 .status-select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
