@@ -33,7 +33,14 @@ public class ProductService {
     // 상품 목록 조회 (페이징, 필터)
     public Page<ProductDto.ListResponse> getProducts(Long categoryId, String keyword,
                                                       String sort, Pageable pageable, String email) {
-        Page<Product> products = productRepository.findByFilter(categoryId, keyword, pageable);
+        Page<Product> products;
+        if ("popular".equals(sort)) {
+            products = productRepository.findByFilterOrderByWishCount(categoryId, keyword, pageable);
+        } else if ("review".equals(sort)) {
+            products = productRepository.findByFilterOrderByReviewCount(categoryId, keyword, pageable);
+        } else {
+            products = productRepository.findByFilter(categoryId, keyword, pageable);
+        }
         Long userId = getUserId(email);
 
         List<ProductDto.ListResponse> list = products.getContent().stream()

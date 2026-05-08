@@ -20,12 +20,14 @@ import AdminCategories from './pages/admin/AdminCategories';
 import './App.css';
 
 function PrivateRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return null; // 로딩 중엔 아무것도 렌더링 안 함
   return user ? children : <Navigate to="/login" />;
 }
 
 function AdminRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return null;
   return user?.role === 'ADMIN' ? children : <Navigate to="/" />;
 }
 

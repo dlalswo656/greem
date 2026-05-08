@@ -34,6 +34,16 @@ public class ReviewController {
         return ResponseEntity.ok(reviewService.createReview(user.getUsername(), request));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReviewDto.Response> updateReview(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails user,
+            @RequestBody java.util.Map<String, Object> request) {
+        String content = (String) request.get("content");
+        Integer rating = request.get("rating") != null ? (Integer) request.get("rating") : null;
+        return ResponseEntity.ok(reviewService.updateReview(id, user.getUsername(), content, rating));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(
             @PathVariable Long id,

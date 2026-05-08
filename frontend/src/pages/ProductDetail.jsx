@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { productApi, cartApi, wishApi, reviewApi, inquiryApi } from '../api/api';
+import { productApi, cartApi, wishApi, reviewApi, inquiryApi, orderApi } from '../api/api';
 import { useAuth } from '../context/AuthContext';
 import './ProductDetail.css';
 
@@ -19,6 +19,10 @@ export default function ProductDetail() {
   const [inquiries, setInquiries] = useState([]);
   const [reviewForm, setReviewForm] = useState({ content: '', rating: 5 });
   const [inquiryForm, setInquiryForm] = useState({ title: '', content: '', isSecret: false });
+  const [replyForms, setReplyForms] = useState({});
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [editingReview, setEditingReview] = useState(null); // 수정 중인 리뷰 id
+  const [editReviewForm, setEditReviewForm] = useState({ content: '', rating: 5 });
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
@@ -29,7 +33,18 @@ export default function ProductDetail() {
     }).catch(console.error);
     loadReviews();
     loadInquiries();
-  }, [id]);
+    // 구매 여부 확인
+    if (user) {
+      orderApi.getOrders().then(res => {
+        const orders = res.data.content || [];
+        const purchased = orders.some(order =>
+          order.status !== 'CANCELLED' && order.status !== 'PENDING' &&
+          order.items?.some(item => item.productId == id)
+        );
+        setHasPurchased(purchased);
+      }).catch(() => {});
+    }
+  }, [id, user]);
 
   const loadReviews = () => reviewApi.getReviews(id).then(res => setReviews(res.data.content)).catch(() => {});
   const loadInquiries = () => inquiryApi.getInquiries(id).then(res => setInquiries(res.data.content)).catch(() => {});
@@ -87,6 +102,26 @@ export default function ProductDetail() {
     if (!user) return alert('로그인이 필요합니다.');
     await inquiryApi.createInquiry({ productId: Number(id), ...inquiryForm });
     setInquiryForm({ title: '', content: '', isSecret: false });
+    loadInquiries();
+  };
+
+  const handleReviewDelete = async (reviewId) => {
+    if (!window.confirm('리뷰를 삭제하시겠습니까?')) return;
+    await reviewApi.deleteReview(reviewId);
+    loadReviews();
+  };
+
+  const handleReviewEditSave = async (reviewId) => {
+    await reviewApi.updateReview(reviewId, editReviewForm);
+    setEditingReview(null);
+    loadReviews();
+  };
+
+  const handleReplySubmit = async (inquiryId) => {
+    const content = replyForms[inquiryId];
+    if (!content?.trim()) return alert('답변 내용을 입력해주세요.');
+    await inquiryApi.addReply(inquiryId, { content });
+    setReplyForms(prev => ({ ...prev, [inquiryId]: '' }));
     loadInquiries();
   };
 
@@ -232,8 +267,13 @@ export default function ProductDetail() {
         {/* 리뷰 탭 */}
         {tab === 'review' && (
           <div className="tab-content">
-            {/* 리뷰 작성 */}
-            {user && (
+            {/* 리뷰 작성 - 구매자만 */}
+            {user && !hasPurchased && (
+              <p style={{ fontSize: 13, color: '#999', marginBottom: 16, padding: '12px 16px', background: '#f8f8f8', borderRadius: 4 }}>
+                구매한 상품에만 리뷰를 작성할 수 있습니다.
+              </p>
+            )}
+            {user && hasPurchased && (
               <form className="review-form" onSubmit={handleReviewSubmit}>
                 <div className="rating-input">
                   {[5,4,3,2,1].map(r => (
@@ -257,9 +297,45 @@ export default function ProductDetail() {
                   <div className="review-top">
                     <span className="reviewer">{r.userName}</span>
                     <span className="review-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5-r.rating)}</span>
-                    <span className="review-date">{new Date(r.createdAt).toLocaleDateString('ko-KR')}</span>
+                    <div className="review-right">
+                      <span className="review-date">{new Date(r.createdAt).toLocaleDateString('ko-KR')}</span>
+                      {(user?.id === r.userId || user?.role === 'ADMIN') && (
+                        <div className="review-actions">
+                          {user?.id === r.userId && (
+                            <button className="review-action-btn" onClick={() => {
+                              setEditingReview(r.id);
+                              setEditReviewForm({ content: r.content, rating: r.rating });
+                            }}>수정</button>
+                          )}
+                          <button className="review-action-btn delete"
+                            onClick={() => handleReviewDelete(r.id)}>삭제</button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <p className="review-content">{r.content}</p>
+                  {/* 수정 모드 */}
+                  {editingReview === r.id ? (
+                    <div className="review-edit-form">
+                      <div className="rating-input">
+                        {[5,4,3,2,1].map(star => (
+                          <button type="button" key={star}
+                            className={`star-btn ${editReviewForm.rating >= star ? 'on' : ''}`}
+                            onClick={() => setEditReviewForm({...editReviewForm, rating: star})}>★</button>
+                        ))}
+                      </div>
+                      <textarea value={editReviewForm.content}
+                        onChange={e => setEditReviewForm({...editReviewForm, content: e.target.value})}
+                        rows={3} />
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button className="btn-primary" style={{ padding: '6px 16px', fontSize: 13 }}
+                          onClick={() => handleReviewEditSave(r.id)}>저장</button>
+                        <button className="btn-outline" style={{ padding: '6px 16px', fontSize: 13 }}
+                          onClick={() => setEditingReview(null)}>취소</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="review-content">{r.content}</p>
+                  )}
                 </div>
               ))
             )}
@@ -304,6 +380,17 @@ export default function ProductDetail() {
                       <p>{rep.content}</p>
                     </div>
                   ))}
+                  {/* 관리자 답변 폼 */}
+                  {user?.role === 'ADMIN' && (
+                    <div className="admin-reply-form">
+                      <input
+                        placeholder="답변 내용을 입력하세요..."
+                        value={replyForms[inq.id] || ''}
+                        onChange={e => setReplyForms(prev => ({ ...prev, [inq.id]: e.target.value }))}
+                      />
+                      <button className="btn-primary" onClick={() => handleReplySubmit(inq.id)}>답변 등록</button>
+                    </div>
+                  )}
                 </div>
               ))
             )}
