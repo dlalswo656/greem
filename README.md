@@ -1,4 +1,4 @@
-# 보고서 [Greem_Portfolio_Report.docx](https://github.com/user-attachments/files/27548357/Greem_Portfolio_Report.docx)
+# 보고서 [Greem_Portfolio_Report.docx](https://github.com/user-attachments/files/27548595/Greem_Portfolio_Report.docx)
 
 # GREEM - 패션 쇼핑몰
 
